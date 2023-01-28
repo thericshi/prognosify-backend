@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from models.BRFSS2015_lr_prediction import predict_hd
 from models.lung_prediction import predict_lc, format_data
@@ -29,7 +29,9 @@ def predict():
     data = {key: float(value) for key, value in data.items()}
     print(data)
     results = predict_hd(data)
-    return jsonify(results)
+    res = make_response(jsonify(results))
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 
 @app.route('/lung-cancer', methods=['POST'])
@@ -38,7 +40,9 @@ def predict_lung():
     data = {key: float(value) for key, value in data.items()}
     print(data)
     results = predict_lc(format_data(data))
-    return jsonify(results)
+    res = make_response(jsonify(results))
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 
 # Add a new route for handling login requests
