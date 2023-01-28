@@ -8,7 +8,7 @@ import jwt
 import datetime
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:3000"])
 
 SECRET_KEY = 'secret_key' # replace this with a strong secret key
 
